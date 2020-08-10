@@ -1,13 +1,25 @@
 const ERC20 = artifacts.require("ERC20");
 
-module.exports = function (deployer) { //deployer, network, accounts
-    deployer.deploy(ERC20("Woofcoin","WOOF")).then(function (instance) {
+const settings = {
+    name: "Woofcoin",
+    symbol: "WOOF"
+}
+
+const minting = {
+    _account: "0x856D4a93B4294783fA204f0106e55cDD178B30b1",    // accounts[1],
+    _amount: 100
+}
+
+
+module.exports = function (deployer, network, accounts) { 
+   // const contractAddr = accounts[0];
+    deployer.deploy(ERC20, settings.name, settings.symbol).then(function (instance) {
         //  contract expects  (string memory name, string memory symbol) public 
         //mint 100 tokens to address
         //function mint(address _account, uint256 _amount) public onlyOwner 
-        instance.mint(0xD67B25cC1b0b4e7287d363D7825c96A48653de88, 100).then(function () {
+        instance.mint(minting._account, minting._amount).then(function () {
                     
-                console.log("Tokens successfully minted. - You are on your way.");
+                console.log("Tokens successfully minted. " + minting._account +" has been minted " + minting._amount + " " + settings.name );
                     
             }).catch(function(err){
 
